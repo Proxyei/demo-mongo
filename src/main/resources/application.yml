@@ -3,13 +3,29 @@ server:
 
 mongodb:
   primary:
-    uri: 192.168.126.147:27017
+#    uri: 192.168.126.147:27017
     username: test1
     password: test1
     database: test1
+    address:
+      192.168.126.147: 27017
+    serverSelectionTimeoutMs: 5000
+    connectTimeoutMs: 3000
+    maxSize: 100
+    minSize: 3
+    maxWaitTimeMs: 5000
+    maxConnectionIdleTime: 300000
   admin:
-    uri: 192.168.126.147:27017
+#    uri: 192.168.126.147:27017
     username: admin
     password: admin
     database: admin
+    address:
+      192.168.126.147: 27017
+    serverSelectionTimeoutMs: 5000
+    connectTimeoutMs: 3000
+    maxSize: 100
+    minSize: 3
+    maxWaitTimeMs: 5000
+    maxConnectionIdleTime: 300000
 
