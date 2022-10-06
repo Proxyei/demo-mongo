@@ -1,11 +1,15 @@
 server:
   port: 8090
-spring:
-  data:
-    mongodb:
-      host: 192.168.126.147
-      port: 27017
-      username: test1
-      password: test1
-      database: test1
+
+mongodb:
+  primary:
+    uri: 192.168.126.147:27017
+    username: test1
+    password: test1
+    database: test1
+  admin:
+    uri: 192.168.126.147:27017
+    username: admin
+    password: admin
+    database: admin
 

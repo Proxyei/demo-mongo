@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.Lists;
 import com.xywei.springboot.demomongo.entity.MergeRequest;
+import com.xywei.springboot.demomongo.entity.TestUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,8 +20,11 @@ import java.util.Random;
 @SpringBootTest
 class DemoMongoApplicationTests {
 
-    @Resource
-    private MongoTemplate mongoTemplate;
+    @Resource(name = "mongoTemplatePrimary")
+    private MongoTemplate mongoTemplatePrimary;
+
+    @Resource(name = "mongoTemplateAdmin")
+    private MongoTemplate mongoTemplateAdmin;
 
     @Test
     void contextLoads() {
@@ -31,10 +35,14 @@ class DemoMongoApplicationTests {
 
     @Test
     public void testFind() {
-        MergeRequest mergeRequest = mongoTemplate.findById("633d97d27b6fbe75860e4c21", MergeRequest.class);
+        MergeRequest mergeRequest = mongoTemplatePrimary.findById("633d97d27b6fbe75860e4c21", MergeRequest.class);
         System.out.println(mergeRequest);
     }
 
+    @Test
+    public void testFind2() {
+        System.out.println(mongoTemplateAdmin.findById("633e7b9ddf226efab809741b", TestUser.class));
+    }
 
     public void testAddData() {
         StopWatch stopWatch = new StopWatch();
@@ -67,7 +75,7 @@ class DemoMongoApplicationTests {
         System.out.println("花费时间1：" + stopWatch.getTotalTimeSeconds());
         stopWatch.start();
         for (List<MergeRequest> mergeRequests : Lists.partition(batchToSave, 500000)) {
-            Collection<MergeRequest> insert = mongoTemplate.insert(mergeRequests, MergeRequest.class);
+            Collection<MergeRequest> insert = mongoTemplatePrimary.insert(mergeRequests, MergeRequest.class);
             System.out.println("插入：" + insert.size());
         }
         stopWatch.stop();
